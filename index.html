@@ -69,7 +69,7 @@
     <div class="row">
       <div class="col-lg-12 text-center">
         <h1 class="mt-5">Nebulas Dice Roll</h1>
-        <!-- <img src="assets/dice.png" class="centered" width="64" /> -->
+        <img src="assets/dice.png" class="centered" width="64" />
         <p class="lead">The free dice game that gives
           <b>NAS</b> token if you guess correctly.</p>
         <p class="subtitle">
@@ -147,6 +147,15 @@
       var currentClass = '';
 
       $('#dapp-info').innerHTML = `Contract: ${dappAddress}\nTx:${dappTxHash}`;
+
+      function disableRoll(){
+          $("#roll-button").prop("disabled",true);
+      }
+
+      function enableRoll(){
+          $("#roll-button").prop("disabled",false);
+      }
+
       /*
        * target is either undefined or a value between 1 and 6.
        */
@@ -185,13 +194,15 @@
         i++;
         setTimeout(function () {
           changeSide(value)
+          enableRoll();
+          $("#roll-outcome").innerHTML = "Rolled " + value + "!";
         }, i * 250)
 
-        $("#roll-outcome").innerHTML = "Rolled " + value + "!";
       }
 
       function requestDiceRoll() {
         console.log('requestDiceRoll');
+        disableRoll();
         var from = Account.NewAccount().getAddressString();
         var value = "0";
         var nonce = "0";
@@ -218,10 +229,12 @@
           onDiceRoll(resp);
         }).catch(function (err) {
           console.log("error: " + err.message);
+          enableRoll();
         })
       }
 
       $(".roll-button").click(function () {
+        console.log('roll-button clicked')
         requestDiceRoll();
       });
 

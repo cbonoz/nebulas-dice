@@ -116,7 +116,7 @@
         <input type="number" class="form-control" id="guess" placeholder="Enter your roll guess (1-6)" />
         <br/>
 
-        <button class="btn btn-success btn-block btn-lg" onclick="requestDiceRoll()">Roll the Dice!</button>
+        <button class="btn btn-success btn-block btn-lg roll-button">Roll the Dice!</button>
       </div>
     </div>
   </div>
@@ -191,7 +191,7 @@
       }
 
       function requestDiceRoll() {
-        console.log('roll-button clicked');
+        console.log('requestDiceRoll');
         var from = Account.NewAccount().getAddressString();
         var value = "0";
         var nonce = "0";
@@ -221,7 +221,7 @@
         })
       }
 
-      $("#roll-button").click(function () {
+      $(".roll-button").click(function () {
         requestDiceRoll();
       });
 

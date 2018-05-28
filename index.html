@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>Bare - Start Bootstrap Template</title>
 
     <!-- Bootstrap core CSS -->
@@ -33,7 +32,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="#">Start Bootstrap</a>
+        <a class="navbar-brand" href="#">Nebulas Dice Roll</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -44,7 +43,7 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="#">About</a>
             </li>
             <li class="nav-item">
@@ -52,7 +51,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -75,6 +74,26 @@
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="./nebulas/nebPay.js"/>
+    <script src="./nebulas/nebulas.js"/>
+
+    <script>
+      "use strict";
+        var dappAddress = "n1i9iPtzsQ6JRwsiTCEZpdg3JWKC6zLjVrM";    //主网
+        // var dappAddress =  "n1y4xt6RUWyfEdrQJPQrnRqrgmnHrssoS7T";   //主网
+      // var dappAddress = "n1xXscy5wLajtWZKQTuWB7JD93dHdnPPamC";
+       var nebulas = require("nebulas"),
+            Account = nebulas.Account,
+            neb = new nebulas.Neb();
+            
+        neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
+        // neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
+
+
+      </script>
+
+
 
   </body>
 

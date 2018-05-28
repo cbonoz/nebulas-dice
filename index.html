@@ -103,7 +103,7 @@
       </div>
     </div>
 
-    <div class="row clearfix">
+    <div class="row clearfix dice-form">
       <div class="col-md-12 column">
         <h3>Enter your Personal Information</h3>
         <input type="text" class="form-control" id="address" placeholder="Enter your NAS Address" />
@@ -212,7 +212,7 @@
       }).catch(function (err) {
         console.log("error: " + err.message);
       })
-    })
+    }
 
     function onDiceRoll(resp) {
       var result = resp.result;

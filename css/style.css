@@ -85,6 +85,10 @@ html{
     margin: 25px;
   }
 
+  .subtitle {
+      margin-bottom: 10px;
+  }
+
   #roll-button {
       margin-bottom: 50px;
   }

@@ -47,13 +47,17 @@ html{
     background: #FFF5EE;
     box-shadow: inset 0 0 10px #000000;
   }
-  
+
   .dice-form {
       margin-top: 20px;
   }
 
   .small-image {
       width: 64px;
+  }
+
+  .clear {
+      clear: both;
   }
 
   .centered {
@@ -79,4 +83,9 @@ html{
   
   .button-padding {
     margin: 25px;
+  }
+
+  .dice-section {
+      margin: 20px;
+      padding: 10px;
   }

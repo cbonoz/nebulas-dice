@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel="shortcut icon" type="image/x-icon" href="assets/dice.png"/>
+  <link rel="shortcut icon" type="image/x-icon" href="assets/dice.png" />
 
   <title>Nebulas Dice - A free NAS dice roll game</title>
   <meta name="Description" content="Free dice roll game with payouts in NAS token. Guess the right value and get rewarded. Roll up to once per minute">
@@ -37,7 +37,8 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <img src="assets/dice.png" width="48"/><a class="navbar-brand" href="#">&nbsp;Nebulas Dice Roll</a>
+      <img src="assets/dice.png" width="48" />
+      <a class="navbar-brand" href="#">&nbsp;Nebulas Dice Roll</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -68,9 +69,12 @@
     <div class="row">
       <div class="col-lg-12 text-center">
         <h1 class="mt-5">Nebulas Dice Roll</h1>
-        <img src="assets/dice.png" class="centered" width="64"/>
-        <p class="lead">The free dice game that gives <b>NAS</b> token if you guess correctly.</p>
-        <p><i>Roll up to once each minute</i></p>
+        <img src="assets/dice.png" class="centered" width="64" />
+        <p class="lead">The free dice game that gives
+          <b>NAS</b> token if you guess correctly.</p>
+        <p>
+          <i>Roll up to once each minute</i>
+        </p>
         <p class="dapp-info"></p>
         <ul class="list-unstyled">
         </ul>
@@ -97,17 +101,19 @@
           <br/>O&ensp;&emsp;O
           <br/>O&ensp;&emsp;O</div>
       </div>
-      </div>
-      <div id="roll-outcome" class="roll-outcome clear">
+    </div>
+    <div id="roll-outcome" class="roll-outcome clear">
     </div>
 
     <div class="row clearfix dice-form">
       <div class="col-md-12 column">
         <h5 class="centered">Dice Roll Information:</h5>
-        Address:&nbsp;<input type="text" class="form-control" id="address" placeholder="Enter your NAS Address" />
-        <i>Will be used for payout.</i><br/>
+        Address:&nbsp;
+        <input type="text" class="form-control" id="address" placeholder="Enter your NAS Address" />
+        <i>Will be used for payout.</i>
         <br/>
-        Guess:&nbsp;<input type="number" class="form-control" id="guess" placeholder="Enter your roll guess (1-6)" />
+        <br/> Guess:&nbsp;
+        <input type="number" class="form-control" id="guess" placeholder="Enter your roll guess (1-6)" />
         <br/>
 
         <button class="btn btn-success btn-block btn-lg" id="roll-button">Roll the Dice!</button>
@@ -136,96 +142,100 @@
     neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
     // neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
 
-    var cube = document.querySelector('.cube');
-    var currentClass = '';
+    $(document).ready(function () {
 
-    /*
-     * target is either undefined or a value between 1 and 6.
-     */
-    function changeSide(target) {
-      var showClass;
-      if (target) {
-        showClass = 'show-' + target;
-      } else {
-        showClass = 'show-' + (Math.floor(Math.random() * 6) + 1);
-        while (showClass === currentClass || isPairClass(showClass, currentClass)) {
+      var cube = document.querySelector('.cube');
+      var currentClass = '';
+
+      /*
+       * target is either undefined or a value between 1 and 6.
+       */
+      function changeSide(target) {
+        var showClass;
+        if (target) {
+          showClass = 'show-' + target;
+        } else {
           showClass = 'show-' + (Math.floor(Math.random() * 6) + 1);
+          while (showClass === currentClass || isPairClass(showClass, currentClass)) {
+            showClass = 'show-' + (Math.floor(Math.random() * 6) + 1);
+          }
         }
+        if (currentClass) {
+          cube.classList.remove(currentClass);
+        }
+        cube.classList.add(showClass);
+        currentClass = showClass;
       }
-      if (currentClass) {
-        cube.classList.remove(currentClass);
+
+      // set initial side
+
+      function randomRoll() {
+        var i;
+        for (i = 0; i < (Math.floor(Math.random() * 5) + 8); i++) {
+          setTimeout(function () {
+            changeSide();
+          }, i * 250);
+        }
+        return i;
       }
-      cube.classList.add(showClass);
-      currentClass = showClass;
-    }
 
-    // set initial side
-
-    function randomRoll() {
-      var i;
-      for (i = 0; i < (Math.floor(Math.random() * 5) + 8); i++) {
+      function rollToValue(value) {
+        $("#roll-outcome").innerHTML = "Rolling...";
+        var i = randomRoll();
+        i++;
         setTimeout(function () {
-          changeSide();
-        }, i * 250);
-      }
-      return i;
-    }
+          changeSide(value)
+        }, i * 250)
 
-    function rollToValue(value) {
-      $("#roll-outcome").innerHTML = "Rolling...";
-      var i = randomRoll();
-      i++;
-      setTimeout(function () {
-        changeSide(value)
-      }, i * 250)
-
-      $("#roll-outcome").innerHTML = "Rolled " + value + "!";
-    }
-
-    function requestDiceRoll() {
-      console.log('roll-button clicked');
-      var from = Account.NewAccount().getAddressString();
-      var value = "0";
-      var nonce = "0";
-      var gas_price = "1000000";
-      var gas_limit = "2000000";
-      var callFunction = "diceRoll";
-      var address = document.getElementById('address').value;
-      var guess = document.getElementById('guess').value;
-      guess = parseInt(guess) || -1;
-      if (guess < 1 || guess > 6) {
-        alert('Guess must be a number between 1 and 6');
-        return;
-      }
-      console.log('roll dice', address, guess);
-
-      var callArgs = "[\"" + address + "\"," + guess + "]";
-      var contract = {
-        "function": callFunction,
-        "args": callArgs,
+        $("#roll-outcome").innerHTML = "Rolled " + value + "!";
       }
 
-      neb.api.call(from, dappAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
-        console.log('resp', resp);
-        onDiceRoll(resp);
-      }).catch(function (err) {
-        console.log("error: " + err.message);
-      })
-    }
+      function requestDiceRoll() {
+        console.log('roll-button clicked');
+        var from = Account.NewAccount().getAddressString();
+        var value = "0";
+        var nonce = "0";
+        var gas_price = "1000000";
+        var gas_limit = "2000000";
+        var callFunction = "diceRoll";
+        var address = document.getElementById('address').value;
+        var guess = document.getElementById('guess').value;
+        guess = parseInt(guess) || -1;
+        if (guess < 1 || guess > 6) {
+          alert('Guess must be a number between 1 and 6');
+          return;
+        }
+        console.log('roll dice', address, guess);
 
-    $( "#roll-button" ).click(function() {
-      requestDiceRoll();
+        var callArgs = "[\"" + address + "\"," + guess + "]";
+        var contract = {
+          "function": callFunction,
+          "args": callArgs,
+        }
+
+        neb.api.call(from, dappAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+          console.log('resp', resp);
+          onDiceRoll(resp);
+        }).catch(function (err) {
+          console.log("error: " + err.message);
+        })
+      }
+
+      $("#roll-button").click(function () {
+        requestDiceRoll();
+      });
+
+      function onDiceRoll(resp) {
+        var result = resp.result;
+        // var obj = JSON.parse(result);
+
+
+        // TODO: parse out rollValue
+        const rolled = result;
+        rollToValue(rolled);
+      }
+
     });
-
-    function onDiceRoll(resp) {
-      var result = resp.result;
-      // var obj = JSON.parse(result);
-
-
-      // TODO: parse out rollValue
-      const rolled = result;
-      rollToValue(rolled);
-    }
 
   </script>
 

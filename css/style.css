@@ -85,7 +85,11 @@ html{
     margin: 25px;
   }
 
+  #roll-button {
+      margin-bottom: 50px;
+  }
+
   .dice-section {
-      margin: 20px;
+      margin-top: 50px;
       padding: 10px;
   }

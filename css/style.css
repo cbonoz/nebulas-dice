@@ -47,6 +47,11 @@ html{
     background: #FFF5EE;
     box-shadow: inset 0 0 10px #000000;
   }
+
+  .roll-outcome {
+      padding: 20px;
+      margin: 15px;
+  }
   
   .cube_face_1 { transform: rotateY(  0deg) translateZ(100px); }
   .cube_face_2 { transform: rotateY( 90deg) translateZ(100px); }

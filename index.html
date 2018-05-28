@@ -78,28 +78,32 @@
         <div class="cube_face_1">O</div>
         <div class="cube_face_2">O&ensp;O</div>
         <div class="cube_face_3">&emsp;&emsp;O
-            <br/>&ensp;&ensp;O
-            <br/>O</div>
+          <br/>&ensp;&ensp;O
+          <br/>O</div>
         <div class="cube_face_4">O&ensp;&emsp;O
-            <br/>
-            <br/>O&ensp;&emsp;O</div>
+          <br/>
+          <br/>O&ensp;&emsp;O</div>
         <div class="cube_face_5">O&ensp;&emsp;O
-            <br/>&emsp; O
-            <br/>O&ensp;&emsp;O</div>
+          <br/>&emsp; O
+          <br/>O&ensp;&emsp;O</div>
         <div class="cube_face_6">O&ensp;&emsp;O
-            <br/>O&ensp;&emsp;O
-            <br/>O&ensp;&emsp;O</div>
-    </div>
+          <br/>O&ensp;&emsp;O
+          <br/>O&ensp;&emsp;O</div>
+      </div>
+
+      <div id="roll-outcome" class="roll-outcome">
+
+      </div>
     </div>
 
-			<div class="row clearfix">
-				<div class="col-md-8 column">
-					<input type="text" class="form-control" id="address" placeholder="Enter your NAS Address" />
-					<br/>
-					<input type="number" class="form-control" id="guess" placeholder="Enter your roll guess (1-6)" />
-					<br/>
-        </div>
-			</div>
+    <div class="row clearfix">
+      <div class="col-md-8 column">
+        <input type="text" class="form-control" id="address" placeholder="Enter your NAS Address" />
+        <br/>
+        <input type="number" class="form-control" id="guess" placeholder="Enter your roll guess (1-6)" />
+        <br/>
+      </div>
+    </div>
   </div>
 
   <!-- Bootstrap core JavaScript -->
@@ -108,7 +112,6 @@
 
   <script src="./nebulas/nebPay.js" />
   <script src="./nebulas/nebulas.js" />
-  <script src="./js/index.js"/>
 
   <script>
     "use strict";
@@ -122,6 +125,51 @@
     // neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
     neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
 
+    var cube = document.querySelector('.cube');
+    var currentClass = '';
+
+    /*
+     * target is either undefined or a value between 1 and 6.
+     */
+    function changeSide(target) {
+      var showClass;
+      if (target) {
+        showClass = 'show-' + target;
+      } else {
+        showClass = 'show-' + (Math.floor(Math.random() * 6) + 1);
+        while (showClass === currentClass || isPairClass(showClass, currentClass)) {
+          showClass = 'show-' + (Math.floor(Math.random() * 6) + 1);
+        }
+      }
+      if (currentClass) {
+        cube.classList.remove(currentClass);
+      }
+      cube.classList.add(showClass);
+      currentClass = showClass;
+    }
+
+    // set initial side
+
+    function randomRoll() {
+      var i;
+      for (i = 0; i < (Math.floor(Math.random() * 5) + 8); i++) {
+        setTimeout(function () {
+          changeSide();
+        }, i * 250);
+      }
+      return i;
+    }
+
+    function rollToValue(value) {
+      $("#roll-outcome").innerHTML = "Rolling...";
+      var i = randomRoll();
+      i++;
+      setTimeout(function () {
+        changeSide(value)
+      }, i * 250)
+
+      $("#roll-outcome").innerHTML = "Rolled " + value + "!";
+    }
 
     $("#roll-dice-button").click(function () {
       var from = Account.NewAccount().getAddressString();
@@ -156,10 +204,10 @@
       // var obj = JSON.parse(result);
 
 
-
+      // TODO: parse out rollValue
+      const rolled = result;
+      rollToValue(rolled);
     }
-
-
 
   </script>
 

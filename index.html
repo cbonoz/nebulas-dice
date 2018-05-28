@@ -75,7 +75,7 @@
         <p>
           <i>Roll up to once each minute</i>
         </p>
-        <p class="dapp-info"></p>
+        <p id="dapp-info"></p>
         <ul class="list-unstyled">
         </ul>
       </div>
@@ -133,7 +133,6 @@
     const dappAddress = "n1kskqrj1h4AGFVsEeA5V5kVdUo2LA2zRza";  // testnet
     const dappTxHash = "8af68276cb7de83120d31c283c4cf60557f8623e233fec619666e290effb2ead";
 
-    $('#dapp-info').innerHTML = `Contract: ${dappAddress}\nTx:${dappTxHash}`;
     // var dappAddress =  ""; // mainnet
     const nebulas = require("nebulas"),
       Account = nebulas.Account,
@@ -147,6 +146,7 @@
       var cube = document.querySelector('.cube');
       var currentClass = '';
 
+      $('#dapp-info').innerHTML = `Contract: ${dappAddress}\nTx:${dappTxHash}`;
       /*
        * target is either undefined or a value between 1 and 6.
        */

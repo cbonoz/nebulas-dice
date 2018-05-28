@@ -107,16 +107,16 @@
 
     <div class="row clearfix dice-form">
       <div class="col-md-12 column">
-        <h5 class="centered">Dice Roll Information:</h5>
+        <h5 class="centered">Enter your Roll Information:</h5>
         Address:&nbsp;
         <input type="text" class="form-control" id="address" placeholder="Enter your NAS Address" />
-        <i>Will be used for payout.</i>
+        <i>Will be used for payout if correct guess.</i>
         <br/>
         <br/> Guess:&nbsp;
         <input type="number" class="form-control" id="guess" placeholder="Enter your roll guess (1-6)" />
         <br/>
 
-        <button class="btn btn-success btn-block btn-lg roll-button">Roll the Dice!</button>
+        <button class="btn btn-success btn-block btn-lg roll-button" id="roll-button">Roll the Dice!</button>
       </div>
     </div>
   </div>
@@ -233,7 +233,7 @@
         })
       }
 
-      $(".roll-button").click(function () {
+      $("#roll-button").click(function () {
         console.log('roll-button clicked')
         requestDiceRoll();
       });

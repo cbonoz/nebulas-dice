@@ -69,8 +69,9 @@
       <div class="col-lg-12 text-center">
         <h1 class="mt-5">Nebulas Dice Roll</h1>
         <img src="assets/dice.png" class="centered"/>
-        <p class="lead">The dice game that pays out NAS if you guess correctly.</p>
-        <p>Roll up to once each minute</p>
+        <p class="lead">The free dice game that gives <b>NAS</b> if you guess correctly.</p>
+        <p><i>Roll up to once each minute</i></p>
+        <p class="dapp-info"></p>
         <ul class="list-unstyled">
         </ul>
       </div>
@@ -80,7 +81,7 @@
 
   <div class="container">
     <div class="row">
-      <div onclick="randomRoll()" class="cube">
+      <div onclick="randomRoll()" class="cube centered">
         <div class="cube_face_1">O</div>
         <div class="cube_face_2">O&ensp;O</div>
         <div class="cube_face_3">&emsp;&emsp;O
@@ -123,15 +124,17 @@
 
   <script>
     "use strict";
-    const dappAddress = "n1i9iPtzsQ6JRwsiTCEZpdg3JWKC6zLjVrM";    //主网
-    // var dappAddress =  "n1y4xt6RUWyfEdrQJPQrnRqrgmnHrssoS7T";   //主网
-    // var dappAddress = "n1xXscy5wLajtWZKQTuWB7JD93dHdnPPamC";
+    const dappAddress = "n1kskqrj1h4AGFVsEeA5V5kVdUo2LA2zRza";  // testnet
+    const dappTxHash = "8af68276cb7de83120d31c283c4cf60557f8623e233fec619666e290effb2ead";
+
+    $('#dapp-info').innerHTML = `Contract: ${dappAddress}\nTx:${dappTxHash}`;
+    // var dappAddress =  ""; // mainnet
     const nebulas = require("nebulas"),
       Account = nebulas.Account,
       neb = new nebulas.Neb();
 
-    // neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
     neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
+    // neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
 
     var cube = document.querySelector('.cube');
     var currentClass = '';
@@ -193,13 +196,16 @@
         alert('Guess must be a number between 1 and 6');
         return;
       }
-      var callArgs = "[\"" + key + "\"," + guess + "]";
+      console.log('roll dice', address, guess);
+
+      var callArgs = "[\"" + address + "\"," + guess + "]";
       var contract = {
         "function": callFunction,
         "args": callArgs,
       }
 
       neb.api.call(from, dappAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+        console.log('resp', resp);
         onDiceRoll(resp);
       }).catch(function (err) {
         console.log("error: " + err.message);
@@ -207,7 +213,6 @@
     })
 
     function onDiceRoll(resp) {
-      console.log('resp', resp);
       var result = resp.result;
       // var obj = JSON.parse(result);
 
